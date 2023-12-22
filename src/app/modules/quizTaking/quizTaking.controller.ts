@@ -19,9 +19,12 @@ const startQuizByCategory: RequestHandler = catchAsync(
   }
 );
 
-const getAllQuizTaking: RequestHandler = catchAsync(
+const submitQuiz: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await QuizTakingService.getAllQuizTaking();
+    const { quizId } = req.params;
+    const { answers } = req.body;
+
+    const result = await QuizTakingService.submitQuiz(quizId, answers);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -31,7 +34,7 @@ const getAllQuizTaking: RequestHandler = catchAsync(
   }
 );
 
-const getQuizTakingById: RequestHandler = catchAsync(
+const getScores: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const result = await QuizTakingService.getQuizTakingById(
       req.params.QuizTakingId
@@ -45,39 +48,8 @@ const getQuizTakingById: RequestHandler = catchAsync(
   }
 );
 
-const updateQuizTaking: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await QuizTakingService.updateQuizTaking(
-      req.params.QuizTakingId,
-      req.body
-    );
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'QuizTaking updated successfully',
-      data: result,
-    });
-  }
-);
-
-const deleteQuizTaking: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await QuizTakingService.deleteQuizTaking(
-      req.params.QuizTakingId
-    );
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'QuizTaking deleted successfully',
-      data: result,
-    });
-  }
-);
-
 export const QuizTakingController = {
   startQuizByCategory,
-  getAllQuizTaking,
-  getQuizTakingById,
-  updateQuizTaking,
-  deleteQuizTaking,
+  submitQuiz,
+  getScores,
 };

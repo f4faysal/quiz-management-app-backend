@@ -1,4 +1,4 @@
-import { Prisma, Score } from '@prisma/client';
+import { Score } from '@prisma/client';
 import ApiError from '../../../errors/ApiError';
 import shuffleQuiz from '../../../helpers/shuffleArray';
 import prisma from '../../../shared/prisma';
@@ -10,6 +10,7 @@ const startQuizByCategory = async (category: string): Promise<IQuiz[]> => {
       category: category,
     },
     select: {
+      id: true,
       questions: true,
     },
   });
@@ -24,36 +25,18 @@ const startQuizByCategory = async (category: string): Promise<IQuiz[]> => {
   return shuffledQuestions;
 };
 
-const getAllQuizTaking = async (): Promise<Score[]> => {
-  const result = await prisma.score.findMany({});
+const submitQuiz = async (quizId: string, answers: number): Promise<Score> => {
+  const result = quizId + answers;
   return result;
 };
 
-const getQuizTakingById = async (id: string): Promise<Score | null> => {
+const getScores = async (id: string): Promise<Score | null> => {
   const result = await prisma.score.findUnique({ where: { id } });
-  return result;
-};
-
-const updateQuizTaking = async (
-  id: string,
-  payload: Prisma.ScoreUpdateInput
-): Promise<Score> => {
-  const result = await prisma.score.update({
-    where: { id },
-    data: payload,
-  });
-  return result;
-};
-
-const deleteQuizTaking = async (id: string): Promise<Score> => {
-  const result = await prisma.score.delete({ where: { id } });
   return result;
 };
 
 export const QuizTakingService = {
   startQuizByCategory,
-  getAllQuizTaking,
-  getQuizTakingById,
-  updateQuizTaking,
-  deleteQuizTaking,
+  submitQuiz,
+  getScores,
 };
