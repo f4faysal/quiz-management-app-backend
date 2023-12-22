@@ -31,14 +31,14 @@
    Create a `.env` file in the root directory and set the following variables:
 
    ```env
-   PORT=3001
+   PORT=5000
    DATABASE_URL=postgresql://user:password@localhost:5432/fquiz
    ```
 
 4. Run the server:
 
    ```bash
-   npm start
+   yarn dev
    ```
 
    The server will be running at `http://localhost:3001`.
