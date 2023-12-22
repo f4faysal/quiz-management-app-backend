@@ -8,14 +8,10 @@ const router = express.Router();
 
 router.get(
   '/profile',
-  auth(ENUM_USER_ROLE.INSTRUCTOR, ENUM_USER_ROLE.STUDENT),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.PERFORMER),
   UserController.getProfile
 );
-router.post(
-  '/sing-up',
-
-  UserController.registerUser
-);
-router.post('/sing-in', UserController.loginUser);
+router.post('/signup', UserController.registerUser);
+router.post('/login', UserController.loginUser);
 
 export const AuthRouter = router;

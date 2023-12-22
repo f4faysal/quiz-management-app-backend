@@ -14,7 +14,7 @@ model User {
   id            String  @id @default(uuid())
   email         String  @unique
   name          String
-  role          Role
+  role          String  @default("performer")
   password      String
   contactNumber String?
   address       String?
@@ -25,6 +25,6 @@ model User {
 }
 
 enum Role {
-  instructor
-  student
+  performer
+  admin
 }

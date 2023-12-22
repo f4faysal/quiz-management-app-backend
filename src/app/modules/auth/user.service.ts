@@ -2,10 +2,11 @@ import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 
-import { Role, User } from '@prisma/client';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
+
+import { User } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 import { ISingUpUserResponse } from './user.interface';
 
@@ -17,10 +18,6 @@ const registerUser = async (user: User): Promise<ISingUpUserResponse> => {
     user.password,
     Number(config.bycrypt_salt_rounds)
   );
-  user.role = Role.student;
-  user.profileImg = '';
-  user.address = '';
-  user.contactNumber = '';
 
   const newUser = await prisma.user.create({ data: user });
 
