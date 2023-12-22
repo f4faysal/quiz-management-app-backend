@@ -2,12 +2,19 @@ import { Prisma, Quiz } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
 const createQuiz = async (payload: Prisma.QuizCreateInput): Promise<Quiz> => {
-  const result = await prisma.quiz.create({ data: payload });
+  console.log(payload, 'payload');
+  const result = await prisma.quiz.create({
+    data: payload,
+  });
   return result;
 };
 
 const getAllQuiz = async (): Promise<Quiz[]> => {
-  const result = await prisma.quiz.findMany();
+  const result = await prisma.quiz.findMany({
+    include: {
+      createdBy: true,
+    },
+  });
   return result;
 };
 
