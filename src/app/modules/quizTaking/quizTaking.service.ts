@@ -1,14 +1,27 @@
 import { Prisma, Score } from '@prisma/client';
+import ApiError from '../../../errors/ApiError';
+import shuffleQuiz from '../../../helpers/shuffleArray';
 import prisma from '../../../shared/prisma';
+import { IQuiz } from './user.interface';
 
-const createQuizTaking = async (
-  payload: Prisma.ScoreCreateInput
-): Promise<Score> => {
-  console.log(payload, 'payload');
-  const result = await prisma.score.create({
-    data: payload,
+const startQuizByCategory = async (category: string): Promise<IQuiz[]> => {
+  const quizData = await prisma.quiz.findFirst({
+    where: {
+      category: category,
+    },
+    select: {
+      questions: true,
+    },
   });
-  return result;
+
+  if (!quizData) {
+    throw new ApiError(404, 'Quiz not found for the specified category.');
+  }
+  console.log(quizData);
+  // Extracting and shuffling questions
+  const shuffledQuestions: IQuiz[] = shuffleQuiz(quizData.questions);
+
+  return shuffledQuestions;
 };
 
 const getAllQuizTaking = async (): Promise<Score[]> => {
@@ -38,7 +51,7 @@ const deleteQuizTaking = async (id: string): Promise<Score> => {
 };
 
 export const QuizTakingService = {
-  createQuizTaking,
+  startQuizByCategory,
   getAllQuizTaking,
   getQuizTakingById,
   updateQuizTaking,

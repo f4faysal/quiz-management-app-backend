@@ -5,9 +5,10 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { QuizTakingService } from './quizTaking.service';
 
-const createQuizTaking: RequestHandler = catchAsync(
+const startQuizByCategory: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await QuizTakingService.createQuizTaking(req.body);
+    const categoryId = req.params.categoryId;
+    const result = await QuizTakingService.startQuizByCategory(categoryId);
     console.log(req.body);
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -74,7 +75,7 @@ const deleteQuizTaking: RequestHandler = catchAsync(
 );
 
 export const QuizTakingController = {
-  createQuizTaking,
+  startQuizByCategory,
   getAllQuizTaking,
   getQuizTakingById,
   updateQuizTaking,
