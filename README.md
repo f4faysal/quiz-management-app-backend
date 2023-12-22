@@ -23,7 +23,7 @@
 
    ```bash
    cd fQuiz-backend
-   npm install
+   npm yarn
    ```
 
 3. Configure environment variables:
