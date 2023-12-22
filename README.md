@@ -115,7 +115,7 @@
   - Endpoint: `/api/quizzes/:quizId`
   - Method: `DELETE`
 
-### Quiz Taking
+### fQuiz Taking
 
 - **Get Random Quiz Questions:**
   - Endpoint: `/api/quiz/:category/questions`
