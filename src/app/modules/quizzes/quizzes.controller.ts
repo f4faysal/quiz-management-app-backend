@@ -66,10 +66,39 @@ const deleteQuiz: RequestHandler = catchAsync(
   }
 );
 
+const createQuizQuestions: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await QuizService.createCuizQuestions(req.body);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Quiz questions created successfully',
+      data: result,
+    });
+  }
+);
+
+const updateQuizQuestions: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await QuizService.updateQuizQuestions(
+      req.params.questionId,
+      req.body
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Quiz questions updated successfully',
+      data: result,
+    });
+  }
+);
+
 export const QuizController = {
   createQuiz,
   getAllQuiz,
   getQuizById,
   updateQuiz,
   deleteQuiz,
+  createQuizQuestions,
+  updateQuizQuestions,
 };
