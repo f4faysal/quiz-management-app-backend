@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { AuthRouter } from '../modules/auth/user.routes';
+import { CategoryRouter } from '../modules/category/category.routes';
 import { QuizTakingRout } from '../modules/quizTaking/quizTaking.routes';
 import { QuizRouter } from '../modules/quizzes/quizzes.routes';
 
@@ -19,6 +20,10 @@ const moduleRoutes = [
   {
     path: '/quiz',
     routes: QuizTakingRout,
+  },
+  {
+    path: '/category',
+    routes: CategoryRouter,
   },
 ];
 

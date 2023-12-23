@@ -33,16 +33,26 @@ enum Role {
 }
 
 model Quiz {
-  id        String   @id @default(uuid())
-  title     String
-  category  String
-  questions Json
+  id    String @id @default(uuid())
+  title String
+
+  questions   Json?
+  isPublished Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy   User    @relation(fields: [createdById], references: [id])
-  createdById String
+  createdBy   User?     @relation(fields: [createdById], references: [id])
+  createdById String?
   score       Score[]
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+  quiz Quiz[]
 }
 
 model Score {

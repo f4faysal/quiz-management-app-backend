@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Quiz" ALTER COLUMN "category" DROP NOT NULL,
+ALTER COLUMN "questions" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Score" ALTER COLUMN "score" SET DATA TYPE TEXT;
