@@ -44,7 +44,9 @@ const updateQuiz = async (
 };
 
 const deleteQuiz = async (id: string): Promise<Quiz> => {
+  await prisma.questions.deleteMany({ where: { quizId: id } });
   const result = await prisma.quiz.delete({ where: { id } });
+
   return result;
 };
 

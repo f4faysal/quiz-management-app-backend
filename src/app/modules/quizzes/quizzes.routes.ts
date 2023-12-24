@@ -17,7 +17,7 @@ router.patch('/question/:questionId', QuizController.updateQuizQuestions);
 router.patch('/:quizId', auth(ENUM_USER_ROLE.ADMIN), QuizController.updateQuiz);
 
 router.delete(
-  '/question/:quizId',
+  '/:quizId',
   auth(ENUM_USER_ROLE.ADMIN),
   QuizController.deleteQuiz
 );
