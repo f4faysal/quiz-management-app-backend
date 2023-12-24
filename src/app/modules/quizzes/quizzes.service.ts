@@ -1,4 +1,5 @@
 import { Prisma, Questions, Quiz } from '@prisma/client';
+import { shuffleArray } from '../../../helpers/shuffleArray';
 import prisma from '../../../shared/prisma';
 
 const createQuiz = async (payload: Prisma.QuizCreateInput): Promise<Quiz> => {
@@ -20,6 +21,19 @@ const getAllQuiz = async (): Promise<Quiz[]> => {
   return result;
 };
 
+// const getQuizById = async (id: string): Promise<Quiz | null> => {
+//   const result = await prisma.quiz.findUnique({
+//     where: { id },
+//     include: {
+//       createdBy: true,
+//       category: true,
+//       questions: true,
+//     },
+//   });
+
+//   return result;
+// };
+
 const getQuizById = async (id: string): Promise<Quiz | null> => {
   const result = await prisma.quiz.findUnique({
     where: { id },
@@ -29,6 +43,19 @@ const getQuizById = async (id: string): Promise<Quiz | null> => {
       questions: true,
     },
   });
+
+  if (result) {
+    // Shuffle order of questions
+    shuffleArray(result.questions);
+
+    // Shuffle options for each question
+    result.questions.forEach(question => {
+      shuffleArray(question.options);
+    });
+  }
+
+  console.log(result, 'result');
+
   return result;
 };
 

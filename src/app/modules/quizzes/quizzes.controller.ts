@@ -32,6 +32,8 @@ const getAllQuiz: RequestHandler = catchAsync(
 
 const getQuizById: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
+    console.log(req.params.quizId);
+
     const result = await QuizService.getQuizById(req.params.quizId);
     sendResponse(res, {
       statusCode: httpStatus.OK,
