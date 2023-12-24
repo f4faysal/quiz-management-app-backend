@@ -7,13 +7,17 @@ const router = express.Router();
 
 router.get('/', QuizController.getAllQuiz);
 router.get('/:quizId', QuizController.getQuizById);
+router.get('/question/:quizId', QuizController.getLastQuizQuestions);
+router.get('/question-id/:questionId', QuizController.getQuestion);
 
 router.post('/', auth(ENUM_USER_ROLE.ADMIN), QuizController.createQuiz);
 router.post('/question', QuizController.createQuizQuestions);
+
 router.patch('/question/:questionId', QuizController.updateQuizQuestions);
 router.patch('/:quizId', auth(ENUM_USER_ROLE.ADMIN), QuizController.updateQuiz);
+
 router.delete(
-  '/:quizId',
+  '/question/:quizId',
   auth(ENUM_USER_ROLE.ADMIN),
   QuizController.deleteQuiz
 );

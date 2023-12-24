@@ -93,6 +93,30 @@ const updateQuizQuestions: RequestHandler = catchAsync(
   }
 );
 
+const getLastQuizQuestions: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await QuizService.getLastQuizQuestions(req.params.quizId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Quiz questions fetched successfully',
+      data: result,
+    });
+  }
+);
+
+const getQuestion: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await QuizService.getQuestion(req.params.questionId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Quiz questions fetched successfully',
+      data: result,
+    });
+  }
+);
+
 export const QuizController = {
   createQuiz,
   getAllQuiz,
@@ -101,4 +125,6 @@ export const QuizController = {
   deleteQuiz,
   createQuizQuestions,
   updateQuizQuestions,
+  getLastQuizQuestions,
+  getQuestion,
 };

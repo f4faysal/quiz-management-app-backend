@@ -14,6 +14,7 @@ const getAllQuiz = async (): Promise<Quiz[]> => {
     include: {
       createdBy: true,
       category: true,
+      questions: true,
     },
   });
   return result;
@@ -25,6 +26,7 @@ const getQuizById = async (id: string): Promise<Quiz | null> => {
     include: {
       createdBy: true,
       category: true,
+      questions: true,
     },
   });
   return result;
@@ -58,11 +60,26 @@ const createCuizQuestions = async (
 const updateQuizQuestions = async (
   id: string,
   payload: Prisma.QuizUpdateInput
-): Promise<Quiz> => {
-  const result = await prisma.quiz.update({
+): Promise<Questions> => {
+  const result = await prisma.questions.update({
     where: { id },
     data: payload,
   });
+  return result;
+};
+
+const getLastQuizQuestions = async (id: string): Promise<Questions[]> => {
+  const result = await prisma.questions.findMany({
+    where: { quizId: id },
+    include: {
+      quiz: true,
+    },
+  });
+  return result;
+};
+
+const getQuestion = async (id: string): Promise<Questions | null> => {
+  const result = await prisma.questions.findUnique({ where: { id } });
   return result;
 };
 
@@ -74,4 +91,6 @@ export const QuizService = {
   deleteQuiz,
   createCuizQuestions,
   updateQuizQuestions,
+  getLastQuizQuestions,
+  getQuestion,
 };
