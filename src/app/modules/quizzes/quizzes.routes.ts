@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/', QuizController.getAllQuiz);
 router.get('/:quizId', QuizController.getQuizById);
+
 router.get('/question/:quizId', QuizController.getLastQuizQuestions);
 router.get('/question-id/:questionId', QuizController.getQuestion);
 

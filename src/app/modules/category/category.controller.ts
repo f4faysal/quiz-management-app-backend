@@ -29,8 +29,20 @@ const getAllCategory: RequestHandler = catchAsync(
     });
   }
 );
+const getCategoryById: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await CategoryService.getCategoryById(req.params.id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Category fetched successfully',
+      data: result,
+    });
+  }
+);
 
 export const CategoryController = {
   createCategory,
   getAllCategory,
+  getCategoryById,
 };

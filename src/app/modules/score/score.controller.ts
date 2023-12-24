@@ -3,12 +3,11 @@ import httpStatus from 'http-status';
 
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { QuizTakingService } from './quizTaking.service';
+import { QuizTakingService } from './score.service';
 
 const startQuizByCategory: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const categoryId = req.params.categoryId;
-    const result = await QuizTakingService.startQuizByCategory(categoryId);
+    const result = await QuizTakingService.startQuizByCategory();
     console.log(req.body);
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -21,10 +20,12 @@ const startQuizByCategory: RequestHandler = catchAsync(
 
 const submitQuiz: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { quizId } = req.params;
+    const { userId } = req.user as { userId: string };
     const { answers } = req.body;
 
-    const result = await QuizTakingService.submitQuiz(quizId, answers);
+    answers.userId = userId;
+
+    const result = await QuizTakingService.submitQuiz(answers);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -36,9 +37,7 @@ const submitQuiz: RequestHandler = catchAsync(
 
 const getScores: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await QuizTakingService.getQuizTakingById(
-      req.params.QuizTakingId
-    );
+    const result = await QuizTakingService.getScores(req.params.userId);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

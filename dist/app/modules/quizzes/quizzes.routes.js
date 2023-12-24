@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.QuizRouter = void 0;
+const express_1 = __importDefault(require("express"));
+const user_1 = require("../../../enums/user");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const quizzes_controller_1 = require("./quizzes.controller");
+const router = express_1.default.Router();
+router.get('/', quizzes_controller_1.QuizController.getAllQuiz);
+router.get('/:quizId', quizzes_controller_1.QuizController.getQuizById);
+router.get('/question/:quizId', quizzes_controller_1.QuizController.getLastQuizQuestions);
+router.get('/question-id/:questionId', quizzes_controller_1.QuizController.getQuestion);
+router.post('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), quizzes_controller_1.QuizController.createQuiz);
+router.post('/question', quizzes_controller_1.QuizController.createQuizQuestions);
+router.patch('/question/:questionId', quizzes_controller_1.QuizController.updateQuizQuestions);
+router.patch('/:quizId', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), quizzes_controller_1.QuizController.updateQuiz);
+router.delete('/:quizId', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), quizzes_controller_1.QuizController.deleteQuiz);
+exports.QuizRouter = router;
